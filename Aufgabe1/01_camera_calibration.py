@@ -14,9 +14,9 @@ objp[:, :2] = np.mgrid[0:7, 0:6].T.reshape(-1, 2)
 # Arrays to store object points and image points from all the images.
 objpoints = []  # 3d point in real world space
 imgpoints = []  # 2d points in image plane.
-
 images = glob.glob('images/*.jpg')
 
+# https://longervision.github.io/2017/03/19/opencv-internal-calibration-chessboard/
 # cap = cv2.VideoCapture(0)
 cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
 found = 0
