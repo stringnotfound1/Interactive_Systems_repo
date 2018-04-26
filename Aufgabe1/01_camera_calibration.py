@@ -17,17 +17,17 @@ imgpoints = []  # 2d points in image plane.
 images = glob.glob('images/*.jpg')
 
 # https://longervision.github.io/2017/03/19/opencv-internal-calibration-chessboard/
-cap = cv2.VideoCapture(0)
-# cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
 # cap = cv2.VideoCapture("http://141.64.166.253:4747/mjpegfeed")
 found = 0
 while found < 1:  # Here, 10 can be changed to whatever number you like to choose
     ret, img = cap.read()  # Capture frame-by-frame
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    cv2.imshow("calibration", img)
+    # cv2.imshow("calibration", img)
 
     # Find the chess board corners
-    ret, corners = cv2.findChessboardCorners(gray, (7, 7), None)
+    ret, corners = cv2.findChessboardCorners(gray, (7, 6), None)
 
     # If found, add object points, image points (after refining them)
     if ret == True:
