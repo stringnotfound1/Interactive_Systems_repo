@@ -1,8 +1,8 @@
 import numpy as np
 import cv2
 
-img_grey = cv2.imread('Lenna.png', 0)
-img_color = cv2.imread('Lenna.png', 1)
+img_grey = cv2.imread('images/Lenna.png', 0)
+img_color = cv2.imread('images/Lenna.png', 1)
 
 # https://stackoverflow.com/questions/40119743/convert-a-grayscale-image-to-a-3-channel-image
 img_grey_converted = cv2.cvtColor(img_grey, cv2.COLOR_GRAY2BGR)

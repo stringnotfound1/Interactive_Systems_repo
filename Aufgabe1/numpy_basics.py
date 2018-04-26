@@ -5,32 +5,38 @@ import math
 #        5.Elementes auf eine 1.
 array = np.zeros(10)
 array[4] = 1
+print("Aufgabe a:")
 print(array)
 print("#######################################################")
 # b) (*) Erzeugen Sie einen Vektor mit Ganzahl-Werten von 10 bis 49 (geht in einer Zeile).
 vec = np.arange(10, 50, 1)
+print("Aufgabe b:")
 print(vec)
 print("#######################################################")
 # c) (*) Drehen Sie die Werte des Vektors um (geht in einer Zeile).
+print("Aufgabe c:")
 print(vec[::-1])
 print("#######################################################")
 # d) (*) Erzeugen Sie eine 4x4 Matrix mit den Werte 0 bis 15 (links oben rechts unten).
+print("Aufgabe d:")
 print(np.arange(16).reshape(4, 4))
 print("#######################################################")
 # e) (*) Erzeuge eine 8x8 Matrix mit Zufallswerte und finde deren Maximum und Minimum und
 #        normalisieren Sie die Werte (sodass alle Werte zwischen 0 und 1 liegen - ein Wert wird 1 (max)
 #        sein und einer 0 (min)).
 matrix = np.random.random((8, 8))
+print("Aufgabe e Zufallsmatrix:")
 print(matrix)
 matrixmax, matrixmin = matrix.max(), matrix.min()
 matrix = (matrix - matrixmin) / (matrixmax - matrixmin)
-print("#######################################################")
+print("Aufgabe e normalisierte Matrix:")
 print(matrix)
 print("#######################################################")
 # f) (*) Multiplizieren Sie eine 4x3 Matrix mit einer 3x2 Matrix
 print(np.ones((3, 2)))
 print(np.ones((4, 3)))
 mult = np.dot(np.ones((4, 3)), np.ones((3, 2)))
+print("Aufgabe f:")
 print(mult)
 print("#######################################################")
 # g) (*) Erzeugen Sie ein 1D Array mit den Werte von 0 bis 20 und negieren Sie Werte zwischen 8
@@ -38,17 +44,20 @@ print("#######################################################")
 arrayNegate = np.arange(0, 21, 1)
 for i in arrayNegate[9: 16]:
     arrayNegate[i] = i * -1
+print("Aufgabe g:")
 print(arrayNegate)
+print("#######################################################")
 # h) (*) Summieren Sie alle Werte in einem Array.
 print(np.sum(arrayNegate))
+print("#######################################################")
 # i) (** ) Erzeugen Sie eine 5x5 Matrix und geben Sie jeweils die geraden und die ungeraden Zeile
 #          aus.
 matrixE = np.arange(25).reshape(5, 5)
 print(matrixE)
-print("Gerade: ")
+print("Aufgabe i Gerade: ")
 # startAt:endBefore:skip
 print(matrixE[::2])
-print("Ungerade: ")
+print("Aufgabe i Ungerade: ")
 print(matrixE[1::2])
 print("#######################################################")
 # x = np.arange(0, 21, 1)
@@ -71,7 +80,10 @@ r = np.sqrt(y ** 2 + y ** 2)
 # (y,x) mit zwei Argumenten an, welche die dargestellten Fallunterscheidungen intern berücksichtigt und den korrekten
 # Wert für \varphi  für beliebige Werte von x und y berechnet.
 t = np.arctan2(y, x)
+
+print("Aufgabe k Koordinaten:")
 print(r)
+print("Aufgabe k Polarkoordinaten:")
 print(t)
 print("#######################################################")
 
@@ -89,7 +101,9 @@ def vector_length(vector):
     return math.sqrt(summe)
 
 
+print("Aufgabe k Vektorlänge (2,3,1):")
 print(vector_length(np.array([2, 3, 1])))   # 3,7416...
+print("#######################################################")
 
 
 def scalar_product(vector_a, vector_b):
@@ -99,5 +113,6 @@ def scalar_product(vector_a, vector_b):
     return scalar
 
 
+print("Aufgabe k Scalar (2,-5,0),(3,2,5):")
 print(scalar_product(np.array([2, -4, 0]), np.array([3, 2, 5])))  # -2
 

@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
 cap = cv2.VideoCapture(0)
 sift = cv2.xfeatures2d.SIFT_create()
 blur_flag = False

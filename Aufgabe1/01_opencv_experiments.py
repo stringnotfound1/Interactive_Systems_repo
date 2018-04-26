@@ -2,7 +2,9 @@ import numpy as np
 import cv2
 
 # cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+cap = cv2.VideoCapture("http://141.64.166.253:4747/mjpegfeed")
+
 mode = 0
 while(True):
     # Capture frame-by-frame
