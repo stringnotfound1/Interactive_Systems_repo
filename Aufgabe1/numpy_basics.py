@@ -48,6 +48,7 @@ print("Aufgabe g:")
 print(arrayNegate)
 print("#######################################################")
 # h) (*) Summieren Sie alle Werte in einem Array.
+print("Aufgabe h (Summe von g. )")
 print(np.sum(arrayNegate))
 print("#######################################################")
 # i) (** ) Erzeugen Sie eine 5x5 Matrix und geben Sie jeweils die geraden und die ungeraden Zeile
@@ -68,7 +69,8 @@ print("#######################################################")
 # j) (** ) Erzeugen Sie eine Matrix M der Größe 4x3 und einen Vektor v mit Länge 3. Multiplizieren
 #          Sie jeden Spalteneintrag aus v mit der kompletten Spalte aus M. Schauen Sie sich dafür an, was
 #          Broadcasting in Numpy bedeutet.
-
+print("Aufgabe j nicht gelöst")
+print("#######################################################")
 # k) (** ) Erzeugen Sie einen Zufallsmatrix der Größe 10x2, die Sie als Kartesische Koordinaten
 #          interpretieren können ([[x0, y0],[x1, y1],[x2, y2]]). Konvertieren Sie diese in Polarkoordinaten
 #          https://de.wikipedia.org/wiki/Polarkoordinaten.
@@ -101,7 +103,7 @@ def vector_length(vector):
     return math.sqrt(summe)
 
 
-print("Aufgabe k Vektorlänge (2,3,1):")
+print("Aufgabe l Vektorlänge (2,3,1):")
 print(vector_length(np.array([2, 3, 1])))   # 3,7416...
 print("#######################################################")
 
@@ -113,6 +115,8 @@ def scalar_product(vector_a, vector_b):
     return scalar
 
 
-print("Aufgabe k Scalar (2,-5,0),(3,2,5):")
+print("Aufgabe l Scalar (2,-5,0),(3,2,5):")
 print(scalar_product(np.array([2, -4, 0]), np.array([3, 2, 5])))  # -2
 
+print("#######################################################")
+print("Aufgabe m nicht gelöst")
