@@ -3,6 +3,7 @@ import cv2
 
 
 # complete the class ImageStitcher
+# https://www.pyimagesearch.com/2016/01/11/opencv-panorama-stitching/
 
 class ImageStitcher:
     """A simple class for stitching two images. The class expects two color images"""
@@ -50,7 +51,7 @@ class ImageStitcher:
 
             # we return the corresponding perspective transform and some
             # necessary status object + the used matches
-            return (H, status, matches)
+            return H, status, matches
 
         # otherwise, no homograpy could be computed
         return None
@@ -139,4 +140,4 @@ class ImageStitcher:
         # 5. create a new image using draw_matches containing the visualized matches
 
         # 6. return the resulting stitched image
-        return (matchlist, result)
+        return matchlist, result
