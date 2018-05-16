@@ -39,9 +39,12 @@ else:
     # Note: if necessary resize the image
     # cv2.imshow("test", matchlist[0])
     numpy_vertical = matchlist[0]
-    for image in matchlist:
-        numpy_horizontal = np.hstack((numpy_vertical, image))
-    cv2.imshow("test", result)
-    cv2.imshow("numpy_vertical", numpy_horizontal)
+    # for image in matchlist:
+    #     numpy_horizontal = np.hstack((numpy_vertical, image))
+    # cv2.imshow("test", result)
+    # cv2.imshow("numpy_vertical", numpy_horizontal)
+    for i, image in enumerate(matchlist):
+        cv2.imshow("match" + str(i), image)
+    cv2.imshow("result", result)
     cv2.waitKey(0)
 

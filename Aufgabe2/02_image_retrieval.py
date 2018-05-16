@@ -28,6 +28,7 @@ def create_keypoints(w, h):
 
     return keypoints_local
 
+
 # 1. preprocessing and load
 images = glob.glob('./images/db/*/*.jpg')
 image_list = []
@@ -37,19 +38,18 @@ for file_name in images:
 sift = cv2.xfeatures2d.SIFT_create()
 
 # 2. create keypoints on a regular grid (cv2.KeyPoint(r, c, keypointSize), as keypoint size use e.g. 11)
-descriptors = []
+images_and_descriptors = []
 keypoints = create_keypoints(256, 256)
 
 # 3. use the keypoints for each image and compute SIFT descriptors
 #    for each keypoint. this compute one descriptor for each image.
-i = 0
+
 for image in image_list:
     kp, des = sift.compute(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), keypoints)
-    image = cv2.drawKeypoints(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), keypoints, None,
-                              flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    descriptors.append(des)
-cv2.imshow("Test", image_list[9])
-cv2.waitKey(0)
+    # image = cv2.drawKeypoints(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), keypoints, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    images_and_descriptors.append((image, des))
+# cv2.imshow("Test", image_list[9])
+# cv2.waitKey(0)
 # YOUR CODE HERE
 
 # 4. use one of the query input image to query the 'image database' that
@@ -58,10 +58,30 @@ cv2.waitKey(0)
 #    and save the result into a priority queue (q = PriorityQueue())
 
 # YOUR CODE HERE
-# image_list[10]
 # load descriptors of input image
-kp, des = sift.compute(cv2.cvtColor(image_list[10], cv2.COLOR_BGR2GRAY), keypoints)
+queue = PriorityQueue()
+image_compare = cv2.imread('./images/db/query_car.jpg', 1)
+# image_compare = cv2.imread('./images/db/query_face.jpg', 1)
+# image_compare = cv2.imread('./images/db/query_flower.jpg', 1)
+kp, desToCompare = sift.compute(cv2.cvtColor(image_compare, cv2.COLOR_BGR2GRAY), keypoints)
+
+# img, des = images_and_descriptors[0]
+print(cv2.norm(desToCompare, des, cv2.NORM_L2))
+
+for imageData in images_and_descriptors:
+    image, des = imageData
+    queue.put((abs(cv2.norm(desToCompare, des, cv2.NORM_L2)), image))
 
 # 5. output (save and/or display) the query results in the order of smallest distance
+i = 0
+numpy_horizontal = cv2.resize(image_compare, (200, 200))
+while not queue.empty():
+    (norm, image_queue) = queue.get()
+    if i < 8:
+        image_queue = cv2.resize(image_queue, (200, 200))
+        numpy_horizontal = np.hstack((numpy_horizontal, image_queue))
+        print(image_queue)
+        i += 1
 
-# YOUR CODE HERE
+cv2.imshow("Compare", numpy_horizontal)
+cv2.waitKey()

@@ -95,38 +95,38 @@ class ImageStitcher:
         # YOUR CODE HERE
         # 1. create feature extraction
         # 2. detect and compute keypoints and descriptors for the first image
-        sift = cv2.xfeatures2d.SIFT_create()
+        self.sift = cv2.xfeatures2d.SIFT_create()
         kp_list = []
         dsc_list = []
-        kp, dsc = sift.detectAndCompute(self.imagelist[0], None)
+        kp, dsc = self.sift.detectAndCompute(self.imagelist[0], None)
         kp_list.append(kp)
         dsc_list.append(dsc)
 
         # 3. loop through the remaining images and detect and compute keypoints + descriptors
         for imagesFiles in range(1, len(self.imagelist)):
-            kp, dsc = sift.detectAndCompute(self.imagelist[imagesFiles], None)
+            kp, dsc = self.sift.detectAndCompute(self.imagelist[imagesFiles], None)
             kp_list.append(kp)
             dsc_list.append(dsc)
 
         # 4. match features between the two images consecutive images and check if the
         # result might be None.
-        matchlist = []
-        i = 0
-        print(len(self.imagelist))
-        while i < len(self.imagelist)-1:
-            M = self.match_keypoints(kp_list[i], kp_list[i+1], dsc_list[i], dsc_list[i+1])
-            imageA = self.imagelist[i]
-            # print(imageA)
-            imageB = self.imagelist[i+1]
-            if M is None:
-                return None
-            H, status, matches = M
-            result = cv2.warpPerspective(imageA, H, (imageA.shape[1] + imageB.shape[1], imageA.shape[0]))
-            result[0:imageB.shape[0], 0:imageB.shape[1]] = imageB
-            panoramaImg = self.draw_matches(imageA, imageB, kp_list[i],  kp_list[i+1], matches, status)
-            matchlist.append(panoramaImg)
-            i += 1
-            print("test", i)
+        # matchlist = []
+        # i = 0
+        # print(len(self.imagelist))
+        # while i < len(self.imagelist)-1:
+        #     M = self.match_keypoints(kp_list[i], kp_list[i+1], dsc_list[i], dsc_list[i+1])
+        #     imageA = self.imagelist[i]
+        #     # print(imageA)
+        #     imageB = self.imagelist[i+1]
+        #     if M is None:
+        #         return None
+        #     H, status, matches = M
+        #     result = cv2.warpPerspective(imageA, H, (imageA.shape[1] + imageB.shape[1], imageA.shape[0]))
+        #     result[0:imageB.shape[0], 0:imageB.shape[1]] = imageB
+        #     panoramaImg = self.draw_matches(imageA, imageB, kp_list[i],  kp_list[i+1], matches, status)
+        #     matchlist.append(panoramaImg)
+        #     i += 1
+        #     print("test", i)
 
         # The result contains matches and a status object that can be used to draw the matches.
         # Additionally (and more importantly it contains the transformation matrix (homography matrix)
@@ -140,4 +140,21 @@ class ImageStitcher:
         # 5. create a new image using draw_matches containing the visualized matches
 
         # 6. return the resulting stitched image
-        return matchlist, result
+
+        resultImage = self.imagelist[0]
+        matchlist = []
+        for img in self.imagelist[1:]:
+            kpResult, dscResult = self.sift.detectAndCompute(cv2.cvtColor(resultImage, cv2.COLOR_BGR2GRAY), None)
+            kp, dsc = self.sift.detectAndCompute(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), None)
+            M = self.match_keypoints(kpResult, kp, dscResult, dsc)
+            if M is None:
+                return None
+            H, status, matches = M
+            newImage = cv2.warpPerspective(resultImage, H, (resultImage.shape[1] + img.shape[1], resultImage.shape[0]))
+            newImage[0:img.shape[0], 0:img.shape[1]] = img
+            matchedImage = self.draw_matches(resultImage, img, kpResult, kp, matches, status)
+            matchlist.append(matchedImage)
+            resultImage = newImage
+
+
+        return matchlist, resultImage
