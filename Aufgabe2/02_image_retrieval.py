@@ -65,12 +65,9 @@ image_compare = cv2.imread('./images/db/query_car.jpg', 1)
 # image_compare = cv2.imread('./images/db/query_flower.jpg', 1)
 kp, desToCompare = sift.compute(cv2.cvtColor(image_compare, cv2.COLOR_BGR2GRAY), keypoints)
 
-# img, des = images_and_descriptors[0]
-print(cv2.norm(desToCompare, des, cv2.NORM_L2))
-
 for imageData in images_and_descriptors:
     image, des = imageData
-    queue.put((abs(cv2.norm(desToCompare, des, cv2.NORM_L2)), image))
+    queue.put((cv2.norm(desToCompare, des, cv2.NORM_L2), image))
 
 # 5. output (save and/or display) the query results in the order of smallest distance
 i = 0
@@ -80,7 +77,6 @@ while not queue.empty():
     if i < 8:
         image_queue = cv2.resize(image_queue, (200, 200))
         numpy_horizontal = np.hstack((numpy_horizontal, image_queue))
-        print(image_queue)
         i += 1
 
 cv2.imshow("Compare", numpy_horizontal)
