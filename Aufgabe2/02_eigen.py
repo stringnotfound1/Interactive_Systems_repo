@@ -56,7 +56,7 @@ eigMat = np.zeros((2, 2), np.float32)
 
 # compute eigenvectors and eigenvalues using the numpy
 # linear algebra package
-
+np.linalg.eig()
 # YOUR CODE HERE
 
 # out and show the image
