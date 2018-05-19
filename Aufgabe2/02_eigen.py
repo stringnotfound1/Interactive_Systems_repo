@@ -34,6 +34,7 @@ corner[2][2] = 0.0
 flat = np.zeros((3, 3, 1), np.float32)
 
 # choose which one to use to compute eigenvector / eigenvalues
+# img = corner
 img = edge
 
 # simple gradient extraction
@@ -51,12 +52,13 @@ eigMat = np.zeros((2, 2), np.float32)
 
 # compute values for matrix eigMat and fill matrix with
 # necessary values
-
+eigMat = cv2.cornerHarris(img, 2, 3, 0.04)
 # YOUR CODE HERE
 
 # compute eigenvectors and eigenvalues using the numpy
 # linear algebra package
-np.linalg.eig()
+w = np.linalg.eig(eigMat)
+v = np.linalg.eigvals(eigMat)
 # YOUR CODE HERE
 
 # out and show the image
