@@ -50,7 +50,6 @@ eigMat = np.zeros((2, 2), np.float32)
 
 # compute values for matrix eigMat and fill matrix with
 # necessary values
-# eigMat = cv2.cornerHarris(img, 2, 3, 0.04)
 
 Ixx = Gx ** 2
 Iyy = Gy ** 2
@@ -67,8 +66,6 @@ eigMat[1, 1] = Iyy.sum()
 # compute eigenvectors and eigenvalues using the numpy
 # linear algebra package
 w, v = np.linalg.eig(eigMat)
-# v = np.linalg.eigvals(eigMat)
-# YOUR CODE HERE
 
 # out and show the image
 print("matrix:", eigMat, '\n')

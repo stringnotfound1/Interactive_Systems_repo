@@ -3,8 +3,7 @@ import cv2
 import math
 import sys
 
-# from ImageStitcher import *
-from Aufgabe2.ImageStitcher import *
+from ImageStitcher import *
 
 ############################################################
 #
@@ -24,6 +23,7 @@ pano6 = cv2.imread('images/pano6.jpg')
 # order of input images is important is important (from right to left)
 # cv2.imshow("Abc", pano1)
 # cv2.waitKey(0)
+
 # imageStitcher = ImageStitcher([pano3, pano2, pano1])   # list of images
 imageStitcher = ImageStitcher([pano6, pano5, pano4])   # list of images
 (matchlist, result) = imageStitcher.stitch_to_panorama()
@@ -39,10 +39,7 @@ else:
     # Note: if necessary resize the image
     # cv2.imshow("test", matchlist[0])
     numpy_vertical = matchlist[0]
-    # for image in matchlist:
-    #     numpy_horizontal = np.hstack((numpy_vertical, image))
-    # cv2.imshow("test", result)
-    # cv2.imshow("numpy_vertical", numpy_horizontal)
+
     for i, image in enumerate(matchlist):
         cv2.imshow("match" + str(i), image)
     cv2.imshow("result", result)

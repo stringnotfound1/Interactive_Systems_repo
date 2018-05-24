@@ -1,8 +1,8 @@
 import cv2
 
-# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 # cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
-cap = cv2.VideoCapture("http://141.64.175.37:4747/mjpegfeed")
+# cap = cv2.VideoCapture("http://141.64.175.37:4747/mjpegfeed")
 sift = cv2.xfeatures2d.SIFT_create()
 cv2.namedWindow('Interactive Systems: Towards AR Tracking')
 

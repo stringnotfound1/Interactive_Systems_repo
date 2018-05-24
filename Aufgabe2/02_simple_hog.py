@@ -47,7 +47,8 @@ def compute_simple_hog(imgcolor, keypoints):
         #         # answer to that question use np.histogram
         print(sub_phase)
         # TODO Wertebereich bis pi/2
-        (hist, bins) = np.histogram(sub_phase[sub_mag > 0], bins=[0, 1, 2, 3, 4, 5, 6, 7, 8])
+
+        (hist, bins) = np.histogram(sub_phase[sub_mag > 0], bins=np.linspace(0, 2 * math.pi, 9), normed=True)
 
         plot_histogram(hist, bins)
         #

@@ -48,8 +48,6 @@ for image in image_list:
     kp, des = sift.compute(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), keypoints)
     # image = cv2.drawKeypoints(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), keypoints, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     images_and_descriptors.append((image, des))
-# cv2.imshow("Test", image_list[9])
-# cv2.waitKey(0)
 # YOUR CODE HERE
 
 # 4. use one of the query input image to query the 'image database' that
