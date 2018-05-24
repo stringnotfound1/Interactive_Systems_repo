@@ -59,7 +59,7 @@ Ixy = Gx * Gy
 eigMat[0, 0] = Ixx.sum()
 eigMat[1, 0] = Ixy.sum()
 eigMat[0, 1] = Ixy.sum()
-eigMat[1, 0] = Iyy.sum()
+eigMat[1, 1] = Iyy.sum()
 
 # print(eigMat)
 # YOUR CODE HERE

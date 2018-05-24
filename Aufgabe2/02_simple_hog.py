@@ -26,13 +26,13 @@ def compute_simple_hog(imgcolor, keypoints):
     img_grey = cv2.cvtColor(imgcolor, cv2.COLOR_BGR2GRAY)
     img_grey = np.float32(img_grey) / 255.0
     # compute x and y gradients
-    sobel_x = cv2.Sobel(img_grey, cv2.CV_64F, 1, 0, ksize=3)
-    sobel_y = cv2.Sobel(img_grey, cv2.CV_64F, 0, 1, ksize=3)
+    sobel_x = cv2.Sobel(img_grey, cv2.CV_64F, 1, 0, ksize=5)
+    sobel_y = cv2.Sobel(img_grey, cv2.CV_64F, 0, 1, ksize=5)
     phase = cv2.phase(sobel_x, sobel_y, True)
     mag = cv2.magnitude(sobel_x, sobel_y)
     # go through all keypoints and and compute feature vector
-    descr = np.zeros((len(keypoints), 7), np.float32)
-    # descr = np.zeros((len(keypoints), 8), np.float32)
+    # descr = np.zeros((len(keypoints), 7), np.float32)
+    descr = np.zeros((len(keypoints), 8), np.float32)
     count = 0
     for kp in keypoints:
         print(kp.pt, kp.size)
@@ -46,7 +46,8 @@ def compute_simple_hog(imgcolor, keypoints):
         # create histogram of angle in subwindow BUT only where magnitude of gradients is non zero! Why? Find an
         #         # answer to that question use np.histogram
         print(sub_phase)
-        (hist, bins) = np.histogram(sub_phase[sub_mag > 0], bins=[0, 1, 2, 3, 4, 5, 6, 7])
+        # TODO Wertebereich bis pi/2
+        (hist, bins) = np.histogram(sub_phase[sub_mag > 0], bins=[0, 1, 2, 3, 4, 5, 6, 7, 8])
 
         plot_histogram(hist, bins)
         #
@@ -57,8 +58,15 @@ def compute_simple_hog(imgcolor, keypoints):
 
 keypoints = [cv2.KeyPoint(15, 15, 11)]
 
-# test for all test images
+# test for all test imagesqqq qqqq
 # test = cv2.imread('./images/hog_test/horiz.jpg')
-test = cv2.imread('./images/hog_test/diag.jpg')
+# test = cv2.imread('./images/hog_test/vert.jpg')
 # test = cv2.imread('./images/hog_test/circle.jpg')
+test = cv2.imread('./images/hog_test/diag.jpg')
+descriptor = compute_simple_hog(test, keypoints)
+test = cv2.imread('./images/hog_test/vert.jpg')
+descriptor = compute_simple_hog(test, keypoints)
+test = cv2.imread('./images/hog_test/circle.jpg')
+descriptor = compute_simple_hog(test, keypoints)
+test = cv2.imread('./images/hog_test/horiz.jpg')
 descriptor = compute_simple_hog(test, keypoints)
