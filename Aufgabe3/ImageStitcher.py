@@ -29,7 +29,7 @@ class ImageStitcher:
         bf = cv2.BFMatcher()
         rawmatches = bf.knnMatch(descriptors1, descriptors2, 2)
         matches = []
-
+        print(kpsPano1, descriptors1)
         # loop over the raw matches and filter them
         for m in rawmatches:
             # ensure the distance is within a certain ratio of each

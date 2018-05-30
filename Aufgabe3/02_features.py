@@ -26,12 +26,17 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # keypoint matching
     kp_frame, dsc_frame = sift.detectAndCompute(gray, None)
-    M = imageStitcher.match_keypoints(kp_frame, kp_marker, dsc_frame, dsc_marker)
-    H, status, matches = M
-    if status is not None:
+    if kp_frame is not None and dsc_frame is not None:
+        M = imageStitcher.match_keypoints(kp_frame, kp_marker, dsc_frame, dsc_marker)
         print(M)
-        matchedImage = imageStitcher.draw_matches(img_marker, frame, kp_frame, kp_marker, matches, status)
-        cv2.imshow("Sift", matchedImage)
+        if M is not None:
+            H, status, matches = M
+            if status is not None and matches is not None and H is not None:
+                newImage = cv2.warpPerspective(img_marker, H, (img_marker.shape[1] + frame.shape[1], img_marker.shape[0] + frame.shape[0]))
+                newImage[0:frame.shape[0], 0:frame.shape[1]] = frame
+                matchedImage = imageStitcher.draw_matches(img_marker, frame, kp_frame, kp_marker, matches, status)
+                cv2.imshow("Sift", matchedImage)
+        # cv2.imshow("Sift", frame)
     # M = None ????
 
 cv2.destroyAllWindows()
