@@ -34,6 +34,9 @@ def distance(a, b):
 
 def update_mean(img, clustermask):
     """This function should compute the new cluster center, i.e. numcluster mean colors"""
+    # Usually, a Python dictionary throws a KeyError if you try to get an item with a key that is not currently in
+    # the dictionary. The defaultdict in contrast will simply create any items that you try to access (provided of
+    # course they do not exist yet).
     cluster_color_list = defaultdict(list)
     print("update_means")
     for h in range(0, h1):

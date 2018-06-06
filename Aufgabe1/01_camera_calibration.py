@@ -14,11 +14,11 @@ objp[:, :2] = np.mgrid[0:7, 0:7].T.reshape(-1, 2)
 # Arrays to store object points and image points from all the images.
 objpoints = []  # 3d point in real world space
 imgpoints = []  # 2d points in image plane.
-images = glob.glob('images/*.jpg')
+# images = glob.glob('images/*.jpg')
 
 # https://longervision.github.io/2017/03/19/opencv-internal-calibration-chessboard/
-cap = cv2.VideoCapture(0)
-# cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
 # cap = cv2.VideoCapture("http://141.64.166.253:4747/mjpegfeed")
 found = 0
 while found < 10:  # Here, 10 can be changed to whatever number you like to choose
@@ -40,10 +40,10 @@ while found < 10:  # Here, 10 can be changed to whatever number you like to choo
         img = cv2.drawChessboardCorners(img, (7, 7), corners2, ret)
         cv2.imshow('img', img)
         cv2.waitKey(500)
-        cv2.imwrite('img.png', img)
+        # cv2.imwrite('img.png', img)
 
         ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
-
+        print("Distortion: ", dist)
         img = cv2.imread('images/left12.jpg')
         h, w = img.shape[:2]
         newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
@@ -54,7 +54,7 @@ while found < 10:  # Here, 10 can be changed to whatever number you like to choo
         # crop the image
         x, y, w, h = roi
         dst = dst[y:y + h, x:x + w]
-        cv2.imwrite('calibresult.png', dst)
+        # cv2.imwrite('calibresult.png', dst)
         found += 1
 
 cap.release()
