@@ -26,15 +26,14 @@ def render_virtual_object(img, x_start, y_start, x_end, y_end, quad):
     # define vertices, edges and colors of your 3D object, e.g. cube
 
     # YOUR CODE HERE
-    z = 0.3
     vertices = np.float32([[0, 0, 0],
                            [1, 0, 0],
                            [1, 1, 0],
                            [0, 1, 0],
-                           [0, 0, z],
-                           [1, 0, z],
-                           [1, 1, z],
-                           [0, 1, z]])
+                           [0, 0, 1],
+                           [1, 0, 1],
+                           [1, 1, 1],
+                           [0, 1, 1]])
 
     edges = [(0, 1),
              (1, 2),
@@ -92,26 +91,39 @@ def render_virtual_object(img, x_start, y_start, x_end, y_end, quad):
         cv2.line(img, (int(x_start), int(y_start)), (int(x_end), int(y_end)), color_lines, 2)
 
 
-# cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# Built-in Cam
+cap = cv2.VideoCapture(0)
+# Wifi Cam
+# cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# USB Cam
+# cap = cv2.VideoCapture("http://127.0.0.1:4747/mjpegfeed")
+# Uni Wifi Cam
+# cap = cv2.VideoCapture("http://141.64.175.37:4747/mjpegfeed")
 cv2.namedWindow('Interactive Systems: AR Tracking')
 while True:
     # YOUR CODE
 
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('q'):
+        break
     # detect and compute descriptor in camera image
     # and match with marker descriptor
     _, frame = cap.read()
     kp_frame, dsc_frame = sift.detectAndCompute(frame, None)
+    cv2.imshow('Interactive Systems: AR Tracking', frame)
+    # print(kp_frame, dsc_frame)
     if dsc_marker is None or dsc_frame is None:
+        cv2.imshow('Interactive Systems: AR Tracking', frame)
         continue
     matches = bfMatcher.knnMatch(dsc_frame, dsc_marker, 2)
     # filter matches by distance [Lowe2004]
     matches = [match[0] for match in matches if len(match) == 2 and
                match[0].distance < match[1].distance * 0.75]
-
+    # matches = [match[0] for match in matches]
     # if there are less than min_matches we just keep going looking
     # early break
     if len(matches) < min_matches:
+        print("No Matches")
         cv2.imshow('Interactive Systems: AR Tracking', frame)
         continue
 
@@ -131,9 +143,10 @@ while True:
     # status - status about inliers and outliers for the plane mapping
     # YOUR CODE
     # (H, status) = cv2.findHomography(p0, p1, cv2.RANSAC, 4.0)
-    (H, mask) = cv2.findHomography(p0, p1, cv2.RANSAC, 4.0)
+    (H, mask) = cv2.findHomography(p0, p1, cv2.RANSAC, 15.0)
     # on the basis of the status object we can now filter RANSAC outliers
     if mask is None:
+        cv2.imshow('Interactive Systems: AR Tracking', frame)
         continue
     mask = mask.ravel() != 0
     if mask.sum() < min_matches:
@@ -144,13 +157,12 @@ while True:
     p0, p1 = p0[mask], p1[mask]
     # get the size of the marker and form a quad in pixel coords np float array using w/h as the corner points
     # YOUR CODE HERE
-    h1, w1 = markerImg.shape[:2]
+    h1, w1 = img_marker.shape[:2]
     quad = [np.array([0, 0], dtype=np.float32),
-            np.array([0, h1], dtype=np.float32),
+            np.array([h1, 0], dtype=np.float32),
             np.array([w1, h1], dtype=np.float32),
-            np.array([w1, 0], dtype=np.float32),    # bottom left
+            np.array([0, w1], dtype=np.float32),
             ]
-    print(quad)
     # perspectiveTransform needs a 3-dimensional array
     quad = np.array([quad])
     quad_transformed = cv2.perspectiveTransform(quad, H)
@@ -158,7 +170,7 @@ while True:
     quad = quad_transformed[0]
 
     # render quad in image plane and feature points as circle using cv2.polylines + cv2.circle
-    # (G,B, R) ???
+    #                                                                       (B, G, R)
     cv2.polylines(frame, [quad.astype(dtype=np.int)], isClosed=True, color=(0, 0, 255), thickness=2)
     for fp1 in p1:
         fp1 = fp1.astype(np.int)
@@ -168,6 +180,4 @@ while True:
     render_virtual_object(frame, 0, 0, h1, w1, quad)
 
     cv2.imshow('Interactive Systems: AR Tracking', frame)
-    key = cv2.waitKey(15) & 0xFF
-    if key == ord('q'):
-        break
+

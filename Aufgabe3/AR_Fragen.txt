@@ -1,0 +1,16 @@
+• Was passiert, wenn Sie das Distanz-Filtering aus dem gegebenen Sourcecode nicht nutzen?
+  File "C:/Users/Alex/PycharmProjects/Interactive_Systems_repo/Aufgabe3/03_ar.py", line 91, in render_virtual_object
+    cv2.line(img, (int(x_start), int(y_start)), (int(x_end), int(y_end)), color_lines, 2)
+	OverflowError: Python int too large to convert to C long
+  Es werden falsche Matches zum Zeichnen der Geometry verwendet, was zu Fehlern führt. 
+  Genauer gesagt werden Matches genutzt, die durch Zufall mit den Keypoints im Originalbild übereinstimmen. Dies wird über die Distanzfilterung verhindert.
+
+• Wie sieht die OpenCV Datenstruktur der Matches aus?
+Nach Filterung: Array mit Matches, Match selbst besteht aus: 
+	DMatch.distance - Distance between descriptors. The lower, the better it is.
+	DMatch.trainIdx - Index of the descriptor in train descriptors
+	DMatch.queryIdx - Index of the descriptor in query descriptors
+	DMatch.imgIdx - Index of the train image.
+• Was passiert wenn Sie den Thresholdwert in cv2.findHomography ändern und warum?
+Sehr hoher Thresholdwert (>15) sorgt für wackelnden Würfel und Absturz bei größerer Distanz zwischen Kamera und Marker.
+Es werden zu viele Punkte als Inliner betrachtet, da der Ransac Threshold zu groß ist

@@ -95,7 +95,6 @@ class Ransac:
         rand_2 = np.random.randint(0, len(self.points[0]) - 1)
         point_1 = self.points[0:, rand_1]
         point_2 = self.points[0:, rand_2]
-        # TODO should points be different? Got an error once
         # compute line parameters m / b and create new line
         point_1_x, point_1_y = point_1
         point_2_x, point_2_y = point_2
@@ -175,4 +174,4 @@ plt.show()
 
 # Notizen:
 # großer Threshold verursacht bei Inliers = Outliers und vor allem Outliers > Inliers Probleme
-# kleinere Threshold haben diese Probleme nicht und unterscheiden sich kaum, vergleich 0.02 und 0.10
+# kleinere Thresholds haben diese Probleme nicht und unterscheiden sich kaum, Vergleich 0.02 und 0.10

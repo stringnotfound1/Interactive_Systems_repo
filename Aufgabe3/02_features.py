@@ -1,8 +1,13 @@
 import cv2
 from Aufgabe3.ImageStitcher import *
 
-# cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# Built-in Cam
+cap = cv2.VideoCapture(0)
+# Wifi Cam
+# cap = cv2.VideoCapture("http://192.168.178.21:4747/mjpegfeed")
+# USB Cam
+# cap = cv2.VideoCapture("http://127.0.0.1:4747/mjpegfeed")
+# Uni Wifi Cam
 # cap = cv2.VideoCapture("http://141.64.175.37:4747/mjpegfeed")
 sift = cv2.xfeatures2d.SIFT_create()
 
