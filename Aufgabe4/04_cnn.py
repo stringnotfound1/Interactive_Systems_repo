@@ -8,10 +8,6 @@ from models.cnnmodel import CNNModel
 from models.vggnetmodel import VGGNet
 from models.testmodel import TESTmodel
 from models.fcmodel import FCModel
-# from models.fcmodel_slim import FCModelSlim
-# from models.fcmodel_solution import FCModel
-
-
 
 # loading the data set and convert to correct format and scale
 X_train, y_train = mnist_reader.load_mnist('data/fashion', kind='train')
@@ -53,8 +49,6 @@ nb_classes = 10
 # plt.show()
 # sys.exit()
 # ------- end show images ----------
-
-
 
 
 # converts a class vector (list of labels in one vector (as for SVM)
