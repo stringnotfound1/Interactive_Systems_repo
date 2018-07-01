@@ -11,7 +11,8 @@ from models.fcmodel import FCModel
 # from models.fcmodel_slim import FCModelSlim
 # from models.fcmodel_solution import FCModel
 
-
+source = 'C:/Zeug/Uni/InteractiveSystems/Projekt/FullIJCNN2013/FullIJCNN2013/'
+target = 'C:/Zeug/Uni/InteractiveSystems/Projekt/FullIJCNN2013/FullIJCNN2013/speedlimits/'
 
 # loading the data set and convert to correct format and scale
 X_train, y_train = mnist_reader.load_mnist('data/fashion', kind='train')
@@ -86,3 +87,22 @@ print('Test accuracy:', score[1])
 
 plot_utils.plot_model_history(history)
 plot_utils.plot_result_examples(model, X_test, y_test, img_rows, img_cols)
+
+
+def get_label_dict(source_dir, target_dir):
+    file = open(source + '/gt.txt')
+    lines = [line.rstrip('\n') for line in file]
+    
+    label_dict = {}
+    for line in lines:
+        splits = line.split(";")
+        filename = splits[0]
+        if filename not in label_dict:
+            label_dict[filename] = []
+        labellist = label_dict[filename]
+        coordinates = []
+        for i in range(1, 5):
+            coordinates.append(splits[i])
+        labellist.append(coordinates)
+    
+    return label_dict
