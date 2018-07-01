@@ -2,17 +2,18 @@ import numpy as np
 from utils import mnist_reader
 from utils import plot_utils
 from matplotlib import pyplot as plt
-
+ 
 from keras.utils import np_utils
 from models.cnnmodel import CNNModel
 from models.vggnetmodel import VGGNet
 from models.testmodel import TESTmodel
 from models.fcmodel import FCModel
-# from models.fcmodel_slim import FCModelSlim
-# from models.fcmodel_solution import FCModel
+from models.fcmodel_slim import FCModelSlim
+from models.fcmodel_solution import FCModel
 
-source = 'C:/Zeug/Uni/InteractiveSystems/Projekt/FullIJCNN2013/FullIJCNN2013/'
-target = 'C:/Zeug/Uni/InteractiveSystems/Projekt/FullIJCNN2013/FullIJCNN2013/speedlimits/'
+file = open('config.cfg')
+lines = [line.rstrip('\n') for line in file]
+source_dir = lines[0]
 
 # loading the data set and convert to correct format and scale
 X_train, y_train = mnist_reader.load_mnist('data/fashion', kind='train')
@@ -55,9 +56,6 @@ nb_classes = 10
 # sys.exit()
 # ------- end show images ----------
 
-
-
-
 # converts a class vector (list of labels in one vector (as for SVM)
 # to binary class matrix (one-n-encoding)
 Y_train = np_utils.to_categorical(y_train, nb_classes)
@@ -80,7 +78,6 @@ model = CNNModel.load_model(nb_classes)
 
 history = model.fit(X_train, Y_train, batch_size=batch_size, epochs=nb_epoch, verbose=1, validation_data=(X_test, Y_test))
 
-
 score = model.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
@@ -89,8 +86,8 @@ plot_utils.plot_model_history(history)
 plot_utils.plot_result_examples(model, X_test, y_test, img_rows, img_cols)
 
 
-def get_label_dict(source_dir, target_dir):
-    file = open(source + '/gt.txt')
+def get_label_dict(source_dir):
+    file = open(source_dir + '/gt.txt')
     lines = [line.rstrip('\n') for line in file]
     
     label_dict = {}
